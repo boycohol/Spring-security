@@ -34,8 +34,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         System.out.println("User: " + username + "\n" + "Password: " + password);
-        Optional<UserEntity>optionalUser=userRepository.findByUsername(username);
-        if(!optionalUser.isPresent()){
+        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+        if (!optionalUser.isPresent()) {
             throw new UsernameNotFoundException("User name not found");
         }
         if (passwordEncoder.matches(password, optionalUser.get().getPassword())) {
