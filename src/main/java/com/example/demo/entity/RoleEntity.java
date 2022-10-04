@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -19,7 +20,4 @@ public class RoleEntity {
     private Long id;
     @Column
     private String role;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
 }

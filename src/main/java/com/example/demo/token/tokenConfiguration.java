@@ -11,17 +11,17 @@ import java.util.List;
 
 @Service
 public class tokenConfiguration {
-    public static String generateAcessToken(HttpServletRequest request, User user, Algorithm algorithm, List<String>roles){
+    public static String generateAcessToken(HttpServletRequest request, String username, Algorithm algorithm, List<String>roles){
         return JWT.create()
-                .withSubject(user.getUsername())
+                .withSubject(username)
                 .withExpiresAt(new Date(System.currentTimeMillis() + 2 * 60 * 60 * 1000))
                 .withClaim("roles:" ,roles)
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
     }
-    public static String generateRefreshToken(HttpServletRequest request, User user, Algorithm algorithm){
+    public static String generateRefreshToken(HttpServletRequest request, String username, Algorithm algorithm){
         return JWT.create()
-                .withSubject(user.getUsername())
+                .withSubject(username)
                 .withExpiresAt(new Date(System.currentTimeMillis() + 2 * 60 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);

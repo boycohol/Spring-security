@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Setter
@@ -13,7 +15,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserModel {
+    private Long id;
     private String username;
     private String password;
-    private Set<RoleEntity> roles;
+    private List<RoleEntity> roles;
 }

@@ -1,3 +1,4 @@
+
 package com.example.demo.service;
 
 import com.example.demo.entity.RoleEntity;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +32,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private UserRepository userRepository;
 
     @Override
+    @Transactional
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
@@ -45,7 +48,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         }
     }
 
-    private List<SimpleGrantedAuthority> getAuthorities(Set<RoleEntity> roleEntitySet) {
+    private List<SimpleGrantedAuthority> getAuthorities(List<RoleEntity> roleEntitySet) {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (RoleEntity entity :
                 roleEntitySet) {
@@ -59,3 +62,4 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
 }
+
