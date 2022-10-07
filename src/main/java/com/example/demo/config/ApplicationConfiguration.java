@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.filter.AuthenticationFilter;
+import com.example.demo.filter.AuthorizationFilter;
 import com.example.demo.service.CustomAuthenticationProvider;
 import com.example.demo.service.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -39,13 +41,14 @@ public class ApplicationConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register","/api/login/**","/finduser").permitAll()
+                .antMatchers("/register","/api/login/**","/finduser","/token/refresh").permitAll()
                 .antMatchers("/dashboard").hasRole("ADMIN")
                 .antMatchers("/profile").hasRole("SUPERADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
         http.addFilter(authenticationFilter);
+        http.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
